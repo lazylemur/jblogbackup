@@ -16,6 +16,6 @@ This was messing up the image downloader. This fix adds some smarts to the blogg
   # not downloading tracking pixels as part of image downloading
   # Deactivating all tracking pixels by re-writing their img tags to have src="" width="0" height="0". All deactivated img tags have a comment attribute with comment="original tracking pixel deactivated by jblogbackup" and the original src is stored in the attribute src-orig.
 
-= Version 1.0 =
+== Version 1.0 ==
 
 Initial release.
