@@ -13,7 +13,8 @@ As of May 20th, 2009, I noticed that blogger had started adding these malformed 
 }}}
 
 This was messing up the image downloader since these URLs are malformed. This fix adds some smarts to the blogger content processor to ignore tracking pixels as follows:
-  # not downloading tracking pixels as part of image downloading. Any 0x0, 0x1, 1x0 or 1x1 image is considered to be a tracking pixel.
+  # Any 0x0, 0x1, 1x0 or 1x1 image is considered to be a tracking pixel.
+  # Skipping tracking pixels when performing image downloading. 
   # Deactivating all tracking pixels by re-writing their img tags to have src="" width="0" height="0". All deactivated img tags have a comment attribute with comment="original tracking pixel deactivated by jblogbackup" and the original src is stored in the attribute src-orig.
 
 == Version 1.0 ==
