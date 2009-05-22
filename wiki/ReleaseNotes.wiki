@@ -3,6 +3,8 @@
 
 == Version 1.1 ==
 
+*May 21, 2009*
+
 Fixed blogger content processor to ignore tracking pixels. 
 
 As of May 20th, 2009, I noticed that blogger had started adding these malformed tracking pixels into blog posts:
@@ -18,5 +20,7 @@ This was messing up the image downloader since these URLs are malformed. This fi
   # Deactivating all tracking pixels by re-writing their img tags to have src="" width="0" height="0". All deactivated img tags have a comment attribute with comment="original tracking pixel deactivated by jblogbackup" and the original src is stored in the attribute src-orig.
 
 == Version 1.0 ==
+
+*Feb 20, 2009*
 
 Initial release.
