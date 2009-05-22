@@ -5,10 +5,10 @@
 
 Fixed blogger content processor to ignore tracking pixels. 
 
-As of May 20th, 2009, I noticed that blogger had started adding these malformed tracking pixels:
+As of May 20th, 2009, I noticed that blogger had started adding these malformed tracking pixels into blog posts:
 {{{
 <div class="blogger-post-footer">
-   <img width='1' height='1' src='//blogger.googleusercontent.com/tracker/1492888914988931727-4681360279888199619?l=beebugchronicles.blogspot.com' />
+   <img width='1' height='1' src='//blogger.googleusercontent.com/tracker/1492888914988931727-4681360279888199619?l=blogname.blogspot.com' />
 </div>
 }}}
 
