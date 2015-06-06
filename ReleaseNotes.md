@@ -1,0 +1,25 @@
+# jblogbackup Release Notes #
+
+## Version 1.1 ##
+
+**May 21, 2009**
+
+Fixed blogger content processor to ignore tracking pixels.
+
+As of May 20th, 2009, I noticed that blogger had started adding these malformed tracking pixels into blog posts:
+```
+<div class="blogger-post-footer">
+   <img width='1' height='1' src='//blogger.googleusercontent.com/tracker/1492888914988931727-4681360279888199619?l=blogname.blogspot.com' />
+</div>
+```
+
+This was messing up the image downloader since these URLs are malformed. This fix adds some smarts to the blogger content processor to ignore tracking pixels as follows:
+  1. Any 0x0, 0x1, 1x0 or 1x1 image is considered to be a tracking pixel.
+  1. Skipping tracking pixels when performing image downloading.
+  1. Deactivating all tracking pixels by re-writing their img tags to have src="" width="0" height="0". All deactivated img tags have a comment attribute with comment="original tracking pixel deactivated by jblogbackup" and the original src is stored in the attribute src-orig.
+
+## Version 1.0 ##
+
+**Feb 20, 2009**
+
+Initial release.
