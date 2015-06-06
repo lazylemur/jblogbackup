@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Jblogbackup : Create a standalone backup zip file of your Blogger blog including posts, comments and images">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jblogbackup</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/lazylemur/jblogbackup">View on GitHub</a>
+
+          <h1 id="project_title">Jblogbackup</h1>
+          <h2 id="project_tagline">Create a standalone backup zip file of your Blogger blog including posts, comments and images</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/lazylemur/jblogbackup/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/lazylemur/jblogbackup/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>jblogbackup is a Java command line tool which allows you to backup your <a href="http://www.blogger.com">Blogger</a> blog content including the following:</p>
+
+<ul>
+<li>posts</li>
+<li>comments</li>
+<li>images (including the larger click-through images)</li>
+</ul>
+
+<p>Blog content is downloaded and processed into one directory which contains the following:</p>
+
+<ul>
+<li>index.html : all blog posts and comments in one HTML file</li>
+<li>styles.css : CSS style sheet</li>
+<li>images/ directory : contains all downloaded images using the same file name as <a href="http://www.blogger.com">Blogger</a>. The larger "click-through" images are suffixed with <code>_fullsize</code>.</li>
+<li>log.html : a processing log of warnings and errors</li>
+<li>atom/ directory : contains the atom posts (entries.xml) and comments (comments.xml)</li>
+</ul>
+
+<p>To see what a jblogbackup backup looks like check out</p>
+
+<ul>
+<li>the jblogbackup <a href="http://jblogbackup-test.blogspot.com">Test Blog</a> and</li>
+<li>its corresponding <a href="http://www.mycreativecup.com/jblogbackup-test">Backup</a>
+</li>
+</ul>
+
+<h2>
+<a id="feature-highlights" class="anchor" href="#feature-highlights" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Highlights</h2>
+
+<ul>
+<li>Downloads all <a href="http://www.blogger.com">Blogger</a> images including the larger "click-through" images</li>
+<li>Only uses the <a href="http://www.blogger.com">Blogger</a> public API so no authentication required</li>
+<li>A zip file of the backup directory can be created by setting <code>jblogbackup.createZipFile=true</code> or using the command line option <code>--zip &lt;zipfile&gt;</code>
+</li>
+<li>Image downloading is parallelized</li>
+</ul>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>Java 6 JRE or JDK</li>
+</ul>
+
+<h2>
+<a id="how-to-install-and-run-a-backup" class="anchor" href="#how-to-install-and-run-a-backup" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to Install and Run a Backup</h2>
+
+<ol>
+<li>Be sure to have Java 6 installed. We assume its installed in directory <code>{JAVA_HOME}</code>
+</li>
+<li>Download jblogbackup-onejar-{version}.jar to directory <code>{JBLOGBACKUP_HOME}</code>
+</li>
+<li>Figure out the name of the <a href="http://www.blogger.com">Blogger</a> blog you want to backup. The name can be found in the blog's URL as follows: <code>http://{blog-name}.blogspot.com</code>
+</li>
+<li>From your OS command line
+
+<ul>
+<li><code>cd {JBLOGBACKUP_HOME}</code></li>
+<li><code>{JAVA_HOME}/java -jar jblogbackup-onejar-{version}.jar --blogname {blog-name}</code></li>
+</ul>
+</li>
+<li>This will create the blog backup in directory <code>{JBLOGBACKUP_HOME}/{blog-name}</code>
+</li>
+</ol>
+
+<p>Additional Parameters:</p>
+
+<ul>
+<li>To create a zip file at <code>{JBLOGBACKUP_HOME}/{blog-name}/{blog-name}.zip</code> add the <code>--zip</code> command line switch</li>
+<li>If you run this backup periodically you can add the <code>--clean</code> switch to delete all files in the <code>{JBLOGBACKUP_HOME}/{blog-name}</code> directory when the backup starts.</li>
+<li>Add <code>--appendtimestamp</code> to append a timestamp to your backup directory e.g. <code>{JBLOGBACKUP_HOME}/{blog-name}_ddMMMyy-HHmmss</code>
+</li>
+<li>To specify default settings, create a Java properties file at <code>{JBLOGBACKUP_HOME}/jblogbackup.properties</code> with one property per line e.g. <code>jblogbackup.{paramname}={paramvalue}</code>. That way you won't have to specify all your desired parameters via the command line when running the command above from the <code>{JBLOGBACKUP_HOME}</code> directory. For example:</li>
+</ul>
+
+<pre><code>jblogbackup.appendTimestampToBackupDir = true
+jblogbackup.cleanBackupDir = true
+jblogbackup.createZipFile = true 
+</code></pre>
+
+<ul>
+<li>Use the <code>--printconfig</code> command line switch to print out your current configuration WITHOUT running the backup. This is useful if you are using a combination of command line switches and jblogbackup.properties files:</li>
+</ul>
+
+<pre><code>$ java -jar jblogbackup-onejar-1.0.jar --blogname buzz --backupdir /tmp --printconfig 
+PARAMETERS
+Blog Name: buzz
+Backup Directory Path: /tmp
+Append Timestamp To Backup Dir: false
+Clean Backup Dir: false
+Create Zip File: false
+Zip File Path: //tmp.zip
+Number of Image Download Threads: 4
+Force GC to Limit Open Files: false
+</code></pre>
+
+<h2>
+<a id="command-line-interface" class="anchor" href="#command-line-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command Line Interface</h2>
+
+<pre><code>usage: jblogbackup.CmdLineTool
+ -?                             Print this message.
+    --appendtimestamp           If specified, append timestamp to the
+                                backup directory in the form "_ddMMMyy-HHmmss"
+ -b,--backupdir &lt;backupdir&gt;     Path to the backup directory. Will be
+                                created if it does not exist. Defaults to blogname/ in the current working
+                                directory.
+ -c,--clean                     If specified, all files in the backup
+                                directory are deleted before the backup starts
+    --dontclean                 If specified, the backup directory will
+                                NOT be cleaned
+    --dontzip                   Do not create a zip file of the backup
+                                directory.
+    --forcegc                   Force garbage collection to limit number
+                                of open files. Only needed if you see java.io.FileNotFoundException due to
+                                "Too many open files"
+ -h,--help                      Print this message.
+ -help                          Print this message.
+    --imgthreads &lt;numThreads&gt;   Number of image download threads. It is
+                                NOT recommended to exceed 4!
+    --log-debug                 Emit debug, info, warning and error
+                                messages. Sets Log4J root category level to debug.
+    --log-error                 Emit error messages. Sets Log4J root
+                                category level to error.
+    --log-info                  Emit info, warning and error messages.
+                                Sets Log4J root category level to info.
+    --log-warn                  Emit warning and error messages. Sets
+                                Log4J root category level to warn.
+ -n,--blogname &lt;blogname&gt;       Blog name. REQUIRED.
+    --noprops                   Do not load any properties from
+                                jblogbackup.properties files or Java system properties.
+ -p,--printconfig               Print configuration and exit.
+ -v,--version                   Print version information and exit.
+ -z,--zip &lt;zipfile&gt;             Create a zip file of the backup directory.
+                                If zipfile path is not specified then backupdir/../backupdir.zip is used.
+</code></pre>
+
+<h2>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h2>
+
+<p>jblogbackup reads its parameters from multiple sources with the following precedence:</p>
+
+<ul>
+<li>the command line</li>
+<li>java system properties (i.e. -Djblogbackup.{paramname}={paramvalue})</li>
+<li>jblogbackup.properties in the current working directory (i.e. ${user.dir}/jblogbackup.properties)</li>
+<li>jblogbackup.properties in the user's directory (i.e. ${user.home}/jblogbackup.properties)</li>
+</ul>
+
+<p>This allows one to specify default values in various properties files.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Paramter</strong></th>
+<th align="left"><strong>Default Value</strong></th>
+<th align="left"><strong>Command Line Switches</strong></th>
+<th align="left"><strong>Property</strong></th>
+<th align="left"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Blogger blog name <strong>REQUIRED</strong>
+</td>
+<td align="left">None</td>
+<td align="left">-n,--blogname <code>&lt;blogname&gt;</code>
+</td>
+<td align="left">jblogbackup.blogName</td>
+<td align="left">Blogger blog name. You can find the blog name of your Blogger blog in the blog URL http://{blogname}.blogspot.com.</td>
+</tr>
+<tr>
+<td align="left">Backup directory path</td>
+<td align="left">
+<code>&lt;blogname&gt;</code>/ in the current working directory</td>
+<td align="left">-b,--backupdir <code>&lt;backupdir&gt;</code>
+</td>
+<td align="left">jblogbackup.backupDir</td>
+<td align="left">Path to the backup directory. Will be created if it does not exist. Defaults to <code>&lt;blogname&gt;</code>/ in the current working directory.</td>
+</tr>
+<tr>
+<td align="left">Append timestamp to backup directory?</td>
+<td align="left">false</td>
+<td align="left">--appendtimestamp</td>
+<td align="left">jblogbackup.appendTimestampToBackupDir</td>
+<td align="left">If specified, append timestamp to the backup directory in the form <code>_ddMMMyy-HHmmss</code>
+</td>
+</tr>
+<tr>
+<td align="left">Clean backup directory before starting backup?</td>
+<td align="left">false</td>
+<td align="left">-c,--clean,--dontclean</td>
+<td align="left">jblogbackup.cleanBackupDir</td>
+<td align="left">If specified, all files in the backup directory are deleted before the backup starts.</td>
+</tr>
+<tr>
+<td align="left">Create zip file of the backup directory?</td>
+<td align="left">false</td>
+<td align="left">-z,--zip,--dontzip</td>
+<td align="left">jblogbackup.createZipFile</td>
+<td align="left">If specified, create a zip file of the backup directory. If no zip file path is specified then <code>&lt;backupdir&gt;</code>.zip will be created in the same directory which contains <code>&lt;backupdir&gt;</code>.</td>
+</tr>
+<tr>
+<td align="left">Zip file path</td>
+<td align="left">
+<code>&lt;backupdir&gt;</code>/../<code>&lt;backupdir&gt;</code>.zip</td>
+<td align="left">-z,--zip <code>&lt;zipfile&gt;</code>
+</td>
+<td align="left">jblogbackup.zipFilePath</td>
+<td align="left">Path to the zip file.</td>
+</tr>
+<tr>
+<td align="left">Number of image download threads</td>
+<td align="left">4</td>
+<td align="left">--imgthreads <code>&lt;numThreads&gt;</code>
+</td>
+<td align="left">jblogbackup.numImageDownloadThreads</td>
+<td align="left">Number of image download threads. It is NOT recommended to exceed 4!</td>
+</tr>
+<tr>
+<td align="left">Force garbage collection to limit open files</td>
+<td align="left">false</td>
+<td align="left">--forcegc</td>
+<td align="left">jblogbackup.forceGcToLimitOpenFiles</td>
+<td align="left">Force garbage collection to limit number of open files. Only needed if you see java.io.FileNotFoundException due to "Too many open files". This may be needed on some hosted servers where the maximum number of open files (<code>ulimit -n</code>) has low limit e.g. 100.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="known-limitations" class="anchor" href="#known-limitations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Known Limitations</h2>
+
+<ul>
+<li>There is no attempt to backup the look and feel of the blog.</li>
+<li>The blog is saved as one large HTML file index.html</li>
+<li>Blog atom posts are downloaded all at once i.e. no support for paginating through posts. This may or may not be needed to support very large blogs.</li>
+<li>Currently no support for incremental backups.</li>
+<li>Only supports <a href="http://www.blogger.com">Blogger</a>. Note that the code is mostly generic and not too much work would be needed to support other blogging software (like WordPress). To support other blogging software, one has to implement:
+
+<ul>
+<li>a new factory for downloading the Atom or RSS and converting that into java objects (those java objects are used by Velocity when generating index.html and log.html)</li>
+<li>custom content handlers for things like click through images etc</li>
+</ul>
+</li>
+<li>Blogger videos are NOT downloaded. The backed up entry will contain the original Blogger video object markup with a reference back to Blogger. This really needs to be fixed as jblogbackup should download all of one's content!</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jblogbackup maintained by <a href="https://github.com/lazylemur">lazylemur</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
